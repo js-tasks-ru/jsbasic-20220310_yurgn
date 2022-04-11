@@ -17,13 +17,19 @@ export default class Modal {
     </div>
     `);
     
-    this.modal.querySelector('.modal__close').addEventListener('click',closeModal);
+    this.modal.querySelector('.modal__close').addEventListener('click', this.close);
+  }
+
+  pressEscape = (event) => {
+    if(event.code === 'Escape'){
+      this.close();
+    }
   }
 
   open(){
     document.body.append(this.modal);
     document.body.classList.add('is-modal-open');
-    document.addEventListener('keydown',pressEscape);
+    document.addEventListener('keydown',this.pressEscape);
   }
   setTitle(modalTitle){
     this.modal.querySelector('.modal__title').textContent = modalTitle;
@@ -33,20 +39,10 @@ export default class Modal {
     mBody.innerHTML = '';
     mBody.append(modalBody);
   }
-  close(){
-    closeModal();
-  }
-}
-  
-  function closeModal(){
-    document.querySelector('.modal').remove();
+  close = () => {
+    this.modal.remove();
     
     document.body.classList.remove('is-modal-open');
-    document.removeEventListener('keydown',pressEscape);
+    document.removeEventListener('keydown', this.pressEscape);
   }
-  function pressEscape(event){
-    if(event.code === 'Escape'){
-      closeModal();
-    }
-  }
-
+}
